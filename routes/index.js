@@ -32,21 +32,24 @@ router.get('/greetings2', function(req, res, next){
     res.send("Hello I greet you agian");
 });
 
-router.get('/add_random_student', function(req, res, next){
+router.get('/add/:firstname/:lastname', function(req, res, next){
     var rand = new Student(
         { 
             buffID: '975338',
-            firstname: 'Trevor',
-            lastname: 'Fleeman'
+            firstname: req.params.firstname,
+            lastname: req.params.lastname
         }
     );
     rand.save(function (err) {
         if (err) {
             console.log(err);
+            res.send('There was an error');
         } else {
-            console.log('The studnet is saved in the db');
+            var message = req.params.firstname + ' ' + req.params.lastname + ' is saved in the db';
+            console.log(message);
+            res.send(message);
         }
-});
+    });
 });
 
 module.exports = router;
